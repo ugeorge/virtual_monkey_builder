@@ -1,0 +1,58 @@
+{
+"provisioners": [ :(|) PROVISIONER_FILES (|):
+	{
+		"type": "shell",
+		"execute_command": "echo ':(|) USER_PASSWORD (|):' | sudo -S sh '{{ .Path }}'",
+		"scripts": [ :(|) PROVISIONER_SCRIPTS (|):
+		]
+	}
+],
+    
+"variables": {
+	"ssh_name": ":(|) USERNAME (|):",
+	"ssh_pass": ":(|) USER_PASSWORD (|):",
+	"hostname": ":(|) VM_NAME (|):"
+},
+
+"builders": [{
+    "type": "virtualbox-iso",
+    "guest_os_type": ":(|) BASE_OS_TYPE (|):",
+	"vm_name": ":(|) VM_NAME (|):",
+
+    "vboxmanage": [
+        ["modifyvm", "{{.Name}}", "--vram", ":(|) VM_VRAM (|):"],
+		["modifyvm", "{{.Name}}", "--memory", ":(|) VM_MEMORY (|):"],
+		["modifyvm", "{{.Name}}", "--cpus", ":(|) VM_CPUS (|):"]
+:(|) VM_MANAGE_COMMANDS (|):
+    ],
+
+    "disk_size" : :(|) VM_DISKSIZE (|):,
+
+    "iso_url": ":(|) BASE_FILE (|):",
+    "iso_checksum": ":(|) BASE_MD5 (|):",
+    "iso_checksum_type": "md5",
+
+    "http_directory" : ".",
+    "http_port_min" : 9001,
+    "http_port_max" : 9001,
+
+    "ssh_username": "{{user `ssh_name`}}",
+    "ssh_password": "{{user `ssh_pass`}}",
+    "ssh_wait_timeout": "20m",
+
+    "shutdown_command": "echo {{user `ssh_pass`}} | sudo -S shutdown -P now",
+
+    "boot_command" : [
+		"<esc><esc><enter><wait>",
+		"/install/vmlinuz noapic",
+		"preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg",
+		"debian-installer=:(|) VM_LANGUAGE (|): auto locale=:(|) VM_LANGUAGE (|): kbd-chooser/method=:(|) KBD_METHOD (|):",
+		"hostname={{user `hostname`}}",
+		"fb=false debconf/frontend=noninteractive",
+		"keyboard-configuration/modelcode=SKIP keyboard-configuration/layout=:(|) KBD_LAYOUT (|):",
+		"keyboard-configuration/variant=:(|) KBD_VARIANT (|): console-setup/ask_detect=false",
+		"initrd=/install/initrd.gz -- <enter>"
+    ]
+}]
+
+}

@@ -1,0 +1,49 @@
+#!/bin/bash
+
+pushd `dirname $0` > /dev/null
+dir=`pwd`
+popd > /dev/null
+
+export VERSION="0.1.1"
+export HOME_PATH=$dir
+export BUNDLES_PATH=$dir/bundles
+export CORE_PATH=$dir/core_scripts
+export CONFIG_PATH=$dir/config
+export PACKAGES_PATH=$dir/packages
+export TEMPLATE_PATH=$dir/templates
+
+if [[ `echo "$1" | egrep 'config|conf|configure'` ]]; then
+	if [ -z "$2" ]; then cfgfile="$dir/config/il2212vt14"; else cfgfile=$2; fi
+	
+	source $cfgfile
+	export BUND_PATH=$BUNDLES_PATH/$bundle
+	export BASE_PATH=$BUND_PATH/bases
+	export BASE_FILE=$BASE_PATH/$base_name
+	export PRESEED_TEMPLATE=$BUND_PATH/preseed.template
+	export PROVISIONERS_PATH=$BUND_PATH/provisioners
+
+	bash core_scripts/create_config.sh
+fi
+
+if [[ `echo "$1" | grep 'build'` ]]; then 
+	eval "$dir"'/packer/packer build '"$dir"'/buildscript.json'
+fi
+if [[ `echo "$1" | grep 'clean'` ]]; then 
+	rm -rf packer_*
+	rm preseed.cfg
+	rm buildscript.json
+fi
+if [[ `echo "$1" | egrep 'doc|documentation|docs'` ]]; then
+	if [ -z "$2" ]; then export docfile="Documentation.md"; else export docfile=$2; fi
+	if [[ $@ =~ "-tree" ]]; then export printtree="true"; fi
+
+	bash core_scripts/write_documentation.sh
+fi
+if [[ `echo "$1" | egrep 'new-bundle'` ]]; then
+	if [ -z "$2" ]; then echo "Please provide a name for the new bundle" 
+	else
+		bash core_scripts/new_bundle.sh $2
+	fi
+fi
+
+

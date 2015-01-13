@@ -1,0 +1,48 @@
+#!/bin/sh
+
+###begin documentation##########################################################
+#
+# This is a template showing the structure of a provisioner script. It consists 
+# in three sections: preamble, dependency commands, and the actual script code.
+# When you make a new bundle, copy this file into the following path:
+#    ${VMB_PATH}/bundles/${YOUR_BUNDLE}/provisioners
+# and start modifying it to fit your purpose (ideally removing the comments).
+
+# [Preamble]
+# Author  : you
+# Date    : today
+# Purpose : short descrition of what this script does.
+# Comment : additional comments and instructions how to acquire the packages
+
+# [Dependencies]
+# Here you write the commands describing the packages or files which your 
+# provisioner script relies upon. Remember that this whole source will be moved
+# inside the guest machine and be executed, thus the dependency commands should
+# actually look like comments (start with a # character). They wil be taken care 
+# of separately by the Monkey. 
+#
+# The dependency strings have the following format:
+#command [arguments...]
+# where <command> defines what arguments are expected. The following strings are 
+# accepted (assuming they start at the beginning of a new line):
+#   #Df <file_name>                        
+#      just a file name (not recommended) 
+#   #Dfm <file_name> <md5_checksum>        
+#      file name and checksum to verify if it is the correct one
+#   #Dl <url>                              
+#      just a link. It assumes that the provisioner will download something 
+#      inside the guest, and the Monkey just has to verify if the link is active
+#   #Dfl <file_name> <url>
+#      The file will be downloaded during the configuration phase and copied 
+#      inside the guest OS where will be used by the provisioner script to do 
+#      its magic.
+#   #Dfml <file_name> <md5_checksum> <url> 
+#      The file is downloaded AND checked during the configuration phase. It
+#      will also be passed to the guest OS.
+#
+###end documentation############################################################
+
+# [Code]
+# here lies your code which does something inside the guest OS. This script will
+# be run by The Monkey (actually Packer) on the first login session after the OS
+# has been created. Thus, for a UNIX system, it has to be sane shell script code.
