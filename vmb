@@ -37,6 +37,7 @@ fi
 if [[ `echo "$1" | egrep 'doc|documentation|docs'` ]]; then
 	if [[ $@ =~ "-tree" ]]; then export printtree="true"; fi
 	export docfile="$DOC_PATH/Documentation.md"
+	mkdir -p $DOC_PATH
 
 	bash core_scripts/write_documentation.sh
 fi
