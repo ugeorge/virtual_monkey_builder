@@ -1,0 +1,79 @@
+
+# Not changeable yet.
+export check_dependencies=1
+
+# Name of the bundle containing the ISO, scripts and configurations for a 
+# specific OS. It has to coincide with the folder name in '/bundles'
+export bundle=""
+
+# Base OS image options
+# ---------------------
+
+# Name of the iso file with the base os. In order to take advantage of automatic
+# setup, it should be the same name as downloaded from the provider.
+export iso_name=""
+
+# URL for downloading the iso in case it is not found in '/bundles/${bundle}/iso'
+export iso_url=""
+
+# MD5 sum for the iso file'
+export iso_md5=""
+
+# OS type as seen by the virtual machine (may differ between different VM
+# providers)
+export iso_os_type="Ubuntu"
+
+# Hardware resources
+# ------------------
+
+# VM type. Will call the appropriate core script. Curretly only 'virtualbox' 
+# possible
+vm_type=""
+
+# Allocated RAM for the VM
+export vm_memory=""
+
+# Number of CPU cores used by the VM
+export vm_cpus=""
+
+# VM disk size in MB
+export vm_disksize=""
+
+# Video RAM in MB
+export vm_vram=""
+
+# User details
+# ------------
+
+# VM name. Will be the same as the OS hostname.
+export vm_name=""
+
+# User full name
+export user_fullname=""
+
+# User login name
+export username=""
+
+# User password
+export user_password=""
+
+# Packages
+# --------
+
+# Standard package bundles provided with the ISO. Consult the OS manual for
+# details
+export standard_packages=""
+
+# Packages from the OS's standard repository (apt-get in Debian distros). Will
+# be installed during the OS setup, before the provisioner scripts.
+export pre_install_packages=""
+
+# Provisioners
+# ------------
+
+# A list of scripts found in '/bundles/${bundle}/provisioners/'. These are shell
+# scripts written for the provided OS and will be run after the OS setup, during
+# the monkey's first SSH login. The order provided in the list will be the order
+# of execution during the provisioning phase.
+export provisioner_scripts=''
+

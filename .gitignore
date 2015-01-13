@@ -1,0 +1,38 @@
+# Compiled source #
+###################
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+*.pyc
+
+# Backup files #
+################
+*~
+*#
+
+# Logs and databases #
+######################
+*.log
+*.sql
+
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+#Workspace directories#
+#######################
+bundles/*/bases/*
+packages/*
+packer_cache
+*.json
+preseed.cfg
+out*
