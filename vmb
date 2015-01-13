@@ -9,6 +9,7 @@ export HOME_PATH=$dir
 export BUNDLES_PATH=$dir/bundles
 export CORE_PATH=$dir/core_scripts
 export CONFIG_PATH=$dir/config
+export DOC_PATH=$dir/doc
 export PACKAGES_PATH=$dir/packages
 export TEMPLATE_PATH=$dir/templates
 
@@ -34,8 +35,8 @@ if [[ `echo "$1" | grep 'clean'` ]]; then
 	rm buildscript.json
 fi
 if [[ `echo "$1" | egrep 'doc|documentation|docs'` ]]; then
-	if [ -z "$2" ]; then export docfile="Documentation.md"; else export docfile=$2; fi
 	if [[ $@ =~ "-tree" ]]; then export printtree="true"; fi
+	export docfile="$DOC_PATH/Documentation.md"
 
 	bash core_scripts/write_documentation.sh
 fi
