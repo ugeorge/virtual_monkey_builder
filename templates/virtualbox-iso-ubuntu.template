@@ -20,10 +20,11 @@
 	"vm_name": ":(|) VM_NAME (|):",
 
     "vboxmanage": [
-        ["modifyvm", "{{.Name}}", "--vram", ":(|) VM_VRAM (|):"],
+		["modifyvm", "{{.Name}}", "--vram", ":(|) VM_VRAM (|):"],
 		["modifyvm", "{{.Name}}", "--memory", ":(|) VM_MEMORY (|):"],
-		["modifyvm", "{{.Name}}", "--cpus", ":(|) VM_CPUS (|):"]
-:(|) VM_MANAGE_COMMANDS (|):
+		["modifyvm", "{{.Name}}", "--cpus", ":(|) VM_CPUS (|):"] :(|) VM_MANAGE_COMMANDS (|):
+    ],
+    "vboxmanage_post": [ :(|) VM_POST_MANAGE_COMMANDS (|):
     ],
 
     "disk_size" : :(|) VM_DISKSIZE (|):,
@@ -44,13 +45,13 @@
 
     "boot_command" : [
 		"<esc><esc><enter><wait>",
-		"/install/vmlinuz noapic",
-		"preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg",
-		"debian-installer=:(|) VM_LANGUAGE (|): auto locale=:(|) VM_LANGUAGE (|): kbd-chooser/method=:(|) KBD_METHOD (|):",
-		"hostname={{user `hostname`}}",
-		"fb=false debconf/frontend=noninteractive",
-		"keyboard-configuration/modelcode=SKIP keyboard-configuration/layout=:(|) KBD_LAYOUT (|):",
-		"keyboard-configuration/variant=:(|) KBD_VARIANT (|): console-setup/ask_detect=false",
+		"/install/vmlinuz noapic ",
+		"preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg ",
+		"debian-installer=:(|) VM_LANGUAGE (|): auto locale=:(|) VM_LANGUAGE (|): kbd-chooser/method=:(|) KBD_METHOD (|): ",
+		"hostname={{user `hostname`}} ",
+		"fb=false debconf/frontend=noninteractive ",
+		"keyboard-configuration/modelcode=SKIP keyboard-configuration/layout=:(|) KBD_LAYOUT (|): ",
+		"keyboard-configuration/variant=:(|) KBD_VARIANT (|): console-setup/ask_detect=false ",
 		"initrd=/install/initrd.gz -- <enter>"
     ]
 }]

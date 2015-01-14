@@ -32,6 +32,7 @@ tasksel tasksel/first multiselect
 
 
 # Stuck between a rock and a HDD place
+d-i partman-auto/disk string /dev/sda
 d-i partman-auto/method string lvm
 d-i partman-lvm/confirm boolean true
 d-i partman-lvm/device_remove_lvm boolean true
@@ -51,10 +52,10 @@ d-i partman-auto-lvm/guided_size string max
 d-i mirror/http/proxy string
 
 # Default user, change
-d-i passwd/user-fullname string User :(|) USER_FULLNAME (|):
-d-i passwd/username string user :(|) USERNAME (|):
-d-i passwd/user-password password pass :(|) USER_PASSWORD (|):
-d-i passwd/user-password-again password pass :(|) USER_PASSWORD (|):
+d-i passwd/user-fullname string :(|) USER_FULLNAME (|):
+d-i passwd/username string :(|) USERNAME (|):
+d-i passwd/user-password password :(|) USER_PASSWORD (|):
+d-i passwd/user-password-again password :(|) USER_PASSWORD (|):
 d-i user-setup/encrypt-home boolean false
 d-i user-setup/allow-password-weak boolean true
 

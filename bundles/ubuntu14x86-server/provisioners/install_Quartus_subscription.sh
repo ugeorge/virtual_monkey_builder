@@ -19,6 +19,7 @@
 
 sudo apt-get install -y gcc-multilib g++-multilib expat:i386 fontconfig:i386 libfreetype6:i386 libexpat1:i386 libc6:i386 libgtk-3-0:i386 libcanberra0:i386 libpng12-0:i386 libice6:i386 libsm6:i386 libncurses5:i386 zlib1g:i386 libx11-6:i386 libxau6:i386 libxdmcp6:i386 libxext6:i386 libxft2:i386 libxrender1:i386 libxt6:i386 libxtst6:i386
 
+
 echo "Copying Quartus installer..."
 mkdir /tmp/qinstall
 tar -xvf /tmp/Quartus-13.0.1.232-linux.tar -C  /tmp/qinstall
@@ -26,10 +27,8 @@ rm /tmp/Quartus-13.0.1.232-linux.tar
 
 
 echo "Installing Quartus tools in /opt/altera/13.0sp1..."
-echo "Sit back, relax, grab a milkshake, watch a movie... seriously, it will take ages!"
-cd /tmp/qinstall
-sudo ./components/QuartusSetup-13.0.1.232.run --mode unattended --unattendedmodeui none --installdir /opt/altera/13.0sp1
-cd ~
+cd /tmp
+printf %500s'y\n/opt/altera/13.0sp1\ny\nn\ny\nn\nn\nn\ny\n\nn\nn\n' | tr " " "\n" | sudo ./qinstall/components/QuartusSetup-13.0.1.232.run --mode text  
 rm -rf /tmp/qinstall
 
 
@@ -37,10 +36,16 @@ echo "Installing Quartus devices..."
 mkdir /tmp/devinstall
 tar -xvf /tmp/Quartus-13.0.1.232-devices-1.tar -C  /tmp/devinstall
 rm /tmp/Quartus-13.0.1.232-devices-1.tar
-cd /tmp/devinstall
-#rm -f components/stratix*
-#rm components/max*
-sudo ./components/DeviceInstall-13.0.1.232.run --mode unattended --unattendedmodeui none --installdir /opt/altera/13.0sp1
+echo "/opt/altera/13.0sp1
+y
+y
+y
+y
+n
+n
+n
+y
+" | sudo ./devinstall/components/DeviceInstall-13.0.1.232.run --mode text
 cd ~
 rm -rf /tmp/devinstall
 

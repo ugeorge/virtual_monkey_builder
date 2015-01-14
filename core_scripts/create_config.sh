@@ -69,7 +69,7 @@ cp $TEMPLATE_PATH/$vm_type-$vm_base_type-$base_os_family.template buildscript.js
 
 str=''
 if [ ! -z "$provisioner_files" ]; then for file in ${provisioner_files}; do	
-	str=''"$str"'\n	{\n		"type": "file",\n		"source": "'"$file"'",\n		"destination": "/tmp/'"$(basename $file)"'"\n	},'
+	str=''"$str"'\n	{\n		"type": "file",\n		"source": "'"$file"'",\n		"destination": "~/Downloads/'"$(basename $file)"'"\n	},'
 done fi
 sed -i 's#:(|) PROVISIONER_FILES (|):#'"$str"'#' buildscript.json
 
@@ -83,24 +83,37 @@ str=''
 while read -r line; do
 	if [ "$line" != "" ]; then
 		tmp=`echo $line | sed 's/\([^" >][^ >]*\)/"\1"/g'`
-		tmp=`echo '\n\t\t['"$tmp"'],' | sed 's/ /, /g'`
+		tmp=`echo '\n\t\t,['"$tmp"']' | sed 's/ /, /g'`
+		tmp=`echo $tmp | sed 's#(_)# #g'`
 		str=''"$str""$tmp"
 	fi
 done <<< "$vm_manage_commands"
-sed -i 's/:(|) VM_MANAGE_COMMANDS (|):/'"$str"'/' buildscript.json
+sed -i 's#:(|) VM_MANAGE_COMMANDS (|):#'"$str"'#' buildscript.json
+
+str=''
+while read -r line; do
+	if [ "$line" != "" ]; then
+		tmp=`echo $line | sed 's/\([^" >][^ >]*\)/"\1"/g'`
+		tmp=`echo '\n\t\t['"$tmp"'],' | sed 's/ /, /g'`
+		tmp=`echo $tmp | sed 's#(_)# #g'`
+		str=''"$str""$tmp"
+	fi
+done <<< "$vm_post_manage_commands"
+sed -i 's#:(|) VM_POST_MANAGE_COMMANDS (|):#'"${str::-1}"'#' buildscript.json
 
 
-sed -i 's#:(|) USERNAME (|):#'"$username"'#' buildscript.json
-sed -i 's#:(|) USER_PASSWORD (|):#'"$user_password"'#' buildscript.json
-sed -i 's#:(|) VM_NAME (|):#'"$vm_name"'#' buildscript.json
-sed -i 's#:(|) BASE_OS_TYPE (|):#'"$base_os_type"'#' buildscript.json
-sed -i 's#:(|) VM_VRAM (|):#'"$vm_vram"'#' buildscript.json
-sed -i 's#:(|) VM_CPUS (|):#'"$vm_cpus"'#' buildscript.json
-sed -i 's#:(|) VM_DISKSIZE (|):#'"$vm_disksize"'#' buildscript.json
-sed -i 's#:(|) BASE_FILE (|):#'"$BASE_FILE"'#' buildscript.json
-sed -i 's#:(|) BASE_MD5 (|):#'"$base_md5"'#' buildscript.json
+sed -i 's#:(|) USERNAME (|):#'"$username"'#g' buildscript.json
+sed -i 's#:(|) USER_PASSWORD (|):#'"$user_password"'#g' buildscript.json
+sed -i 's#:(|) VM_NAME (|):#'"$vm_name"'#g' buildscript.json
+sed -i 's#:(|) BASE_OS_TYPE (|):#'"$base_os_type"'#g' buildscript.json
+sed -i 's#:(|) VM_VRAM (|):#'"$vm_vram"'#g' buildscript.json
+sed -i 's#:(|) VM_MEMORY (|):#'"$vm_memory"'#g' buildscript.json
+sed -i 's#:(|) VM_CPUS (|):#'"$vm_cpus"'#g' buildscript.json
+sed -i 's#:(|) VM_DISKSIZE (|):#'"$vm_disksize"'#g' buildscript.json
+sed -i 's#:(|) BASE_FILE (|):#'"$BASE_FILE"'#g' buildscript.json
+sed -i 's#:(|) BASE_MD5 (|):#'"$base_md5"'#g' buildscript.json
 sed -i 's#:(|) VM_LANGUAGE (|):#'"$vm_language"'#g' buildscript.json
-sed -i 's#:(|) KBD_METHOD (|):#'"$kbd_method"'#' buildscript.json
-sed -i 's#:(|) KBD_LAYOUT (|):#'"$kbd_layout"'#' buildscript.json
-sed -i 's#:(|) KBD_VARIANT (|):#'"$kbd_variant"'#' buildscript.json
+sed -i 's#:(|) KBD_METHOD (|):#'"$kbd_method"'#g' buildscript.json
+sed -i 's#:(|) KBD_LAYOUT (|):#'"$kbd_layout"'#g' buildscript.json
+sed -i 's#:(|) KBD_VARIANT (|):#'"$kbd_variant"'#g' buildscript.json
 
