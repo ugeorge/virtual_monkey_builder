@@ -69,7 +69,7 @@ cp $TEMPLATE_PATH/$vm_type-$vm_base_type-$base_os_family.template buildscript.js
 
 str=''
 if [ ! -z "$provisioner_files" ]; then for file in ${provisioner_files}; do	
-	str=''"$str"'\n	{\n		"type": "file",\n		"source": "'"$file"'",\n		"destination": "~/Downloads/'"$(basename $file)"'"\n	},'
+	str=''"$str"'\n	{\n		"type": "file",\n		"source": "'"$file"'",\n		"destination": "/tmp/'"$(basename $file)"'"\n	},'
 done fi
 sed -i 's#:(|) PROVISIONER_FILES (|):#'"$str"'#' buildscript.json
 

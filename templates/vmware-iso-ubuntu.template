@@ -15,10 +15,11 @@
 },
 
 "builders": [{
-    "type": "virtualbox-iso",
+    "type": "vmware-iso",
     "guest_os_type": ":(|) BASE_OS_TYPE (|):",
 	"vm_name": ":(|) VM_NAME (|):",
-	"format": "ova",
+	"vmdk_name" : ":(|) VM_NAME (|):",
+	"format": "ova", :(|) VM_EXTRA_COMMANDS (|):
 
     "vboxmanage": [
 		["modifyvm", "{{.Name}}", "--vram", ":(|) VM_VRAM (|):"],
