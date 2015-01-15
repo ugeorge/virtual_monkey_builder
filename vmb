@@ -22,7 +22,9 @@ if [[ `echo "$1" | egrep 'config|conf|configure'` ]]; then
 	export BASE_FILE=$BASE_PATH/$base_name
 	export PRESEED_TEMPLATE=$BUND_PATH/preseed.template
 	export PROVISIONERS_PATH=$BUND_PATH/provisioners
-
+	
+	touch preseed.cfg
+	touch buildscript.json
 	bash core_scripts/create_config.sh
 fi
 
@@ -42,9 +44,10 @@ if [[ `echo "$1" | egrep 'doc|documentation|docs'` ]]; then
 	bash core_scripts/write_documentation.sh
  	if [ -z `command -v markdown` ]; then
 		echo "
-It seems that you do not have markdown installed. It is a nice tool that converts
-md files to html. In order to experience the full beauty of this monkey-generated
-document, install it e.g. on Debian distributions:
+It seems that you do not have markdown installed. It is a nice tool that 
+converts md files to html. In order to experience the full beauty of this 
+monkey-generated document, install it e.g. on Debian distributions:
+
     sudo apt-get install markdown
 
 Generated $DOC_PATH/Documentation.md

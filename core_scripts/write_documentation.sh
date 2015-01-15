@@ -25,10 +25,13 @@ echo "*   [Provisioners](#Provisioners)" >> $docfile
 echo "	*   [Available provisioners](#Available provisioners)" >> $docfile
 echo "	*   [Creating a new provisioner](#Creating a new provisioner)" >> $docfile
 
+echo "* * *" >> $docfile
+
+
 if [ ! -z $printtree ]; then 
-echo "
-Directory structure
--------------------" >> $docfile
+echo '
+ <h2 id="Directory structure">Directory structure</h2>
+' >> $docfile
 if ! type tree > /dev/null; then
 	echo "INFO: The 'tree' command is not available. For a nice display of the folder
 	structure, install 'tree' e.g.: sudo apt-get install tree" >> $docfile
@@ -40,8 +43,7 @@ echo '' >> $docfile
 fi
 
 echo "
-Configurations
---------------
+<h2 id=\"Configurations\">Configurations</h2>
 
 A configuration file defines a set of variables which tell the monkey how to set
 up your machine, e.g. names, VM parameters, what provisioner scripts to run inside
@@ -50,7 +52,7 @@ the VM (a.k.a building blocks), etc
 " >> $docfile
 
 echo "
-###Available configurations
+<h3 id=\"Available configurations\">Available configurations</h3>
 
 I have found the following configurations:" >> $docfile
 
@@ -72,7 +74,7 @@ for cf in `find config -type f \( ! -iname "*template" ! -iname "README*" ! -ina
 done
 
 echo "
-###Creating a new configuration
+<h3 id=\"Creating a new configuration\">Creating a new configuration</h3>
 
 The configuration files determine what the resulting VM will contain. To make a 
 new configuration create a file (ideally in \`$CONFIG_PATH/\`) which initializes the 
@@ -86,8 +88,7 @@ sed -i 's/\]//g' .temp
 cat .temp >> $docfile
 
 echo "
-Bundles
--------
+<h2 id=\"Bundles\">Bundles</h2>
 
 A bundle is a collection of \"lego blocks\" for the monkey to play with when 
 building your virtual machine. A bundle is associated with _one OS distribution 
@@ -110,8 +111,7 @@ bundles=`find $BUNDLES_PATH -maxdepth 1 -mindepth 1 -type d -exec basename {} \;
 prov=''
 
 echo "
-###Available bundles
-
+<h3 id=\"Available bundles\">Available bundles</h3>
 
 I have found the following bundles:
 " >> $docfile
@@ -134,8 +134,8 @@ done
 echo '' >> $docfile
 
 echo "
-###Creating a new bundle
 
+<h3 id=\"Creating a new bundle\">Creating a new bundle</h3>
 
 Creating a new bundle is simple. Just invoke the command
 
@@ -149,8 +149,7 @@ have to write it by yourself.
 
 
 echo "
-Provisioners
-------------
+<h2 id=\"Provisioners\">Provisioners</h2>
 
 Provisioner scripts are shell scripts which will be run by the monkey inside the
 guest OS after its first boot. Thus they have to contain sane shell code. Because
@@ -164,7 +163,7 @@ documentation about how to write provisioners.
 " >> $docfile
 
 echo "
-###Documentation for available provisioners
+<h3 id=\"Available provisioners\">Documentation for available provisioners</h3>
 
 The provisioners can be seen in section [Available bundles](#Available bundles). 
 The following paragraphs show their documentation as it is provided:
@@ -191,7 +190,7 @@ echo '' >> $docfile
 
 
 echo "
-###Creating a new provisioner
+<h3 id=\"Creating a new provisioner\">Creating a new provisioner</h3>
 
 To create a new provisioner for a specific bundle you have to write a script in 
 the appropriate path (check section 1 for details). A provisioner should be have
