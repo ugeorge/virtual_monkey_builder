@@ -68,7 +68,7 @@ export user_password="embedded"
 
 # Packages
 export standard_packages="standard"
-export pre_install_packages="build-essential ssh dkms xorg lubuntu-desktop haskell-platform emacs git"
+export pre_install_packages="build-essential ssh dkms xorg lubuntu-desktop haskell-platform emacs git gedit xterm git-gui gitk"
 
 # Provisioners
 export provisioner_scripts='

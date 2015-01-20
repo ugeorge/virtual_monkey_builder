@@ -61,14 +61,14 @@ export kbd_layout="USA"
 export kbd_variant="USA"
 
 # User details
-export vm_name="il2212"
+export vm_name="il2212g"
 export user_fullname="IL2212 Student"
 export username="student"
 export user_password="embedded"
 
 # Packages
 export standard_packages="standard"
-export pre_install_packages="build-essential ssh dkms xorg gnome-session-fallback haskell-platform emacs git gedit xterm"
+export pre_install_packages="build-essential ssh dkms xorg gnome-desktop-environment haskell-platform emacs git gedit xterm git-gui gitk"
 
 # Provisioners
 export provisioner_scripts='

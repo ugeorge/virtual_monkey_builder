@@ -19,6 +19,7 @@
     "guest_os_type": ":(|) BASE_OS_TYPE (|):",
 	"vm_name": ":(|) VM_NAME (|):",
 	"format": "ova",
+	"guest_additions_mode": "disable",
 
     "vboxmanage": [
 		["modifyvm", "{{.Name}}", "--vram", ":(|) VM_VRAM (|):"],
