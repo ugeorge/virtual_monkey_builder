@@ -170,7 +170,7 @@ sometimes:
 License
 -------
 
-This project is licensed under [GPLv3](http://www.gnu.org/copyleft/gpl.html) license. 
+This project is licensed under [MIT](http://opensource.org/licenses/MIT) license. 
 
 The VM build engine is [Packer by HashiCorp](https://www.packer.io/), included
 in this project and licensed under the [MIT license](http://opensource.org/licenses/MIT).
