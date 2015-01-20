@@ -1,20 +1,19 @@
 Virtual Monkey Builder
 ======================
 
-This is the most helpful (and friendly) monkey a(n IT) lab assistant can get. And since
-lab assistants are doing all kinds of monkey business, this little guy can be a 
-good friend indeed.
+This is the most helpful (and friendly) monkey a lab assistant can get. And since
+lab assistants do all kinds of monkey business, this little guy can be of great help.
 
 This is what our monkey does:
 
- * build virtual machines (VMs) for lab envirtonments based on your wishes
+ * build virtual machines (VMs) for lab envirtonments based on configuration files
  * install operating systems inside your VM
  * download, install and set up packages and programs
  * do all sorts of shady things possible through a command-line shell
  * set up environments and get to the innetmost secret places for crazy hacking
 
 And all of this without touching the keyboard. Well... this or crashing and 
-burning your computer, killing you and your friends in the process and swinging 
+burning your computer, killing you and your friends in the process and flinging 
 poop at strangers. Did I say it is friendly? Well... umm... it is still an 
 experimental project.
 
@@ -62,7 +61,7 @@ The monkey will start working by checking the dependencies, trying to retreive
 missing files and building two Packer configuration files `preseed.cfg` and 
 `buildscript.json`. If some step does not succeed, you will be aggresively prompted
 and be faced with in-program solutions. Now don't be a lazy ass, read them! 
-It usually involves some cickies here and there, and manually downloading some 
+It usually involves some clickies here and there, and manually downloading some 
 files.
 
 Good, you have the configuration files for your dream virtual machine. Now you 
@@ -110,48 +109,8 @@ To build a documentation of the Monkey's current structure, components and usefu
 tips, write
 
 ```
-./vmb doc [name] [-tree]
+./vmb doc
 ```
-
-###Making a new configuration
-
-If you want to add a new configuration based on an existing bundle, you can either
-copy an existing configuration or modify a template and fill the variables
-according to your preferences. 
-
-Keep in mind that the `provisioner_scripts` variable has to contain names of 
-scripts already exising in `<root_monkey>/bundles/<bundle>/provisioners/`.
-
-###Making a new provisioner script
-
-Provisioner scripts are shell scripts which will be run by the monkey inside the
-guest OS after its first boot. Thus they have to contain sane shell code. Because
-of that, it makes sense to create a set of provisioner scripts for each bundle (each OS).
-
-If the script depends on a file, download link, or whatnot, this dependency has to be 
-explicitly stated in a custom command so that the monkey can verify it during
-the configuration phase. Check the file `provisioner.template` for extended 
-documentation about how to write provisioners.
-
-###Making a new bundle
-
-A bundle consists in
-
- * a bootable ISO with the OS installation kit
- * a set of provisioner scripts which make sense for that OS
- * a `preseed.template` file for configuring the OS. Some OSes support automatic
-   installation through preseed scripts. Check https://gist.github.com/hitsumabushi/11104627 for examples
-
-All the previous steps can be automated using the command
-
-```
-./vmb new-bundle <bundle-name>
-```
-
-and follow the instructions.
-
-The ISO does not need to be specifically included in the bundle as long as a download
-link and a md5 checksum are provided in the configuration file.
 
 Development & contributions
 ---------------------------
