@@ -23,23 +23,23 @@ tar xvzf /tmp/systemc-2.3.1.tgz -C /tmp/fsdsyscinstall
 cd /tmp/fsdsyscinstall/systemc-2.3.1
 mkdir objdir
 cd objdir
-sudo mkdir /usr/local/systemc-2.3.1
-sudo ../configure --prefix=/usr/local/systemc-2.3.1/
+sudo mkdir /opt/systemc-2.3.1
+sudo ../configure --prefix=/opt/systemc-2.3.1/
 sudo make
 sudo make install
 rm -rf /tmp/fsdsyscinstall
 
 
-sudo mkdir /usr/local/forsyde-systemc
-cd /usr/local/forsyde-systemc
+sudo mkdir /opt/forsyde-systemc
+cd /opt/forsyde-systemc
 sudo svn co https://forsyde.ict.kth.se/svn/forsyde/ForSyDe-SystemC/trunk/ .
 
-touch /usr/local/forsyde-systemc/Makefile.defs
+touch /opt/forsyde-systemc/Makefile.defs
 echo "## Variable that points to SystemC installation path
-SYSTEMC = /usr/local/systemc-2.3.1
+SYSTEMC = /opt/systemc-2.3.1
 
 ## Variable that points to SFF (SystemC ForSyDe) installation path
-SFF = /usr/local/forsyde-systemc/src
+SFF = /opt/forsyde-systemc/src
 
 TARGET_ARCH = linux
 CC     = g++  
@@ -73,11 +73,11 @@ EXE    = \$(MODULE).x
 clean:
 \t-rm -f \$(OBJS) *~ \$(EXE) *.vcd *.wif *.isdb *.dmp *.P *.log
 
--include \$(SRCS:.cpp=.P)" > /usr/local/forsyde-systemc/Makefile.defs
+-include \$(SRCS:.cpp=.P)" > /opt/forsyde-systemc/Makefile.defs
 
 mkdir /home/student/ForSyDe-workspace
 
-cd /usr/local/forsyde-systemc
+cd /opt/forsyde-systemc
 touch /home/student/.fsdk
 echo 'PS1="\[\e[32;2m\]\w\[\e[0m\]\n[ForSyDe-SystemC]$ "
 
@@ -87,18 +87,18 @@ then
 fi
 FORSYDE_BASH_RUN=1
 
-export LD_LIBRARY_PATH=/usr/local/systemc-2.3.1/lib-linux
-export FORSYDE_MAKEDEFS=/usr/local/forsyde-systemc/Makefile.defs
+export LD_LIBRARY_PATH=/opt/systemc-2.3.1/lib-linux
+export FORSYDE_MAKEDEFS=/opt/forsyde-systemc/Makefile.defs
 
 echo "------------------------------------------------
 
 ForSyDe Command Shell ['`gcc -v 2>&1 | tail -1`']
 ' > /home/student/.fsdk
-svn info 2>&1 | tail -4 >> /home/student/.fsdk
+git show -q 2>&1 | head -3 >> /home/student/.fsdk
 echo '------------------------------------------------
 
 Example designs can be found in
-	/usr/local/forsyde-systemc/examples
+	/opt/forsyde-systemc/examples
 
 "
 

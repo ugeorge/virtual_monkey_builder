@@ -12,13 +12,14 @@
 sudo apt-get install -y git
 sudo apt-get install -y haskell-platform
 sudo apt-get install -y ghc-haddock
+sudo apt-get install -y cabal-install-1.24
 
 
-git clone https://gitr.sys.kth.se/ingo/forsyde-shallow.git /tmp
-cd /tmp/forsyde-shallow
 
-./Setup.hs configure
-./Setup.hs build
-./Setup.hs haddock
+mkdir /home/student/forsyde-haskell
+git clone https://github.com/forsyde/forsyde-shallow.git /home/student/forsyde-haskell
+cd /home/student/forsyde-haskell
 
+cabal install
 
+sudo mv /home/student/forsyde-haskell /opt/
