@@ -14,26 +14,6 @@
 #
 ###end documentation############################################################
 
-sudo apt-get install -y build-essential
-sudo apt-get install -y subversion
-sudo apt-get install -y libboost-all-dev
-
-mkdir /tmp/fsdsyscinstall
-tar xvzf /tmp/systemc-2.3.1.tgz -C /tmp/fsdsyscinstall
-cd /tmp/fsdsyscinstall/systemc-2.3.1
-mkdir objdir
-cd objdir
-sudo mkdir /opt/systemc-2.3.1
-sudo ../configure --prefix=/opt/systemc-2.3.1/
-sudo make
-sudo make install
-rm -rf /tmp/fsdsyscinstall
-
-
-sudo mkdir /opt/forsyde-systemc
-cd /opt/forsyde-systemc
-sudo svn co https://forsyde.ict.kth.se/svn/forsyde/ForSyDe-SystemC/trunk/ .
-
 touch /opt/forsyde-systemc/Makefile.defs
 echo "## Variable that points to SystemC installation path
 SYSTEMC = /opt/systemc-2.3.1
@@ -75,10 +55,8 @@ clean:
 
 -include \$(SRCS:.cpp=.P)" > /opt/forsyde-systemc/Makefile.defs
 
-mkdir /home/student/ForSyDe-workspace
 
-cd /opt/forsyde-systemc
-touch /home/student/.fsdk
+touch ~/.fsdk
 echo 'PS1="\[\e[32;2m\]\w\[\e[0m\]\n[ForSyDe-SystemC]$ "
 
 if [ "$FORSYDE_BASH_RUN" != "" ]
@@ -90,17 +68,10 @@ FORSYDE_BASH_RUN=1
 export LD_LIBRARY_PATH=/opt/systemc-2.3.1/lib-linux
 export FORSYDE_MAKEDEFS=/opt/forsyde-systemc/Makefile.defs
 
-echo "------------------------------------------------
-
-ForSyDe Command Shell ['`gcc -v 2>&1 | tail -1`']
-' > /home/student/.fsdk
-git show -q 2>&1 | head -3 >> /home/student/.fsdk
-echo '------------------------------------------------
 
 Example designs can be found in
 	/opt/forsyde-systemc/examples
 
-"
 
 cd ~/ForSyDe-workspace
 
@@ -122,21 +93,8 @@ CFLAGS += -DFORSYDE_INTROSPECTION
 " > Makefile
 }
 
-' >> /home/student/.fsdk
+' >> ~/.fsdk
 
 chmod 777 ~/.fsdk
 
 
-touch ~/Desktop/ForSyDe_SystemC_Shell.desktop
-echo '[Desktop Entry]
-Version=1.0
-Type=Application
-Terminal=false
-Icon[en_US]=gnome-ccperiph
-Name[en_US]=ForSyDe Shell
-Exec=lxterminal  --command "bash --rcfile /home/student/.fsdk"
-Comment[en_US]=Launches a pre-configured shell environment for ForSyDe
-Name=ForSyDe Shell
-Comment=Launches a pre-configured shell environment for ForSyDe
-Icon=ibus-engine
-StartupNotify=true' > ~/Desktop/ForSyDe_SystemC_Shell.desktop
