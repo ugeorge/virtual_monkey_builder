@@ -1,0 +1,77 @@
+{
+"provisioners": [ :(|) PROVISIONER_FILES (|):
+	{
+		"type": "shell",
+		"execute_command": "echo ':(|) USER_PASSWORD (|):' | sudo -S sh '{{ .Path }}'",
+		"scripts": [ :(|) PROVISIONER_SCRIPTS (|):
+		]
+	}
+],
+    
+"variables": {
+	"ssh_name": ":(|) USERNAME (|):",
+	"ssh_pass": ":(|) USER_PASSWORD (|):",
+	"hostname": ":(|) VM_NAME (|):"
+},
+
+"builders": [{
+    "type": "virtualbox-iso",
+    "guest_os_type": ":(|) BASE_OS_TYPE (|):",
+	"vm_name": ":(|) VM_NAME (|):",
+	"format": "ova",
+	"guest_additions_mode": "disable",
+
+    "vboxmanage": [
+		["modifyvm", "{{.Name}}", "--vram", ":(|) VM_VRAM (|):"],
+		["modifyvm", "{{.Name}}", "--memory", ":(|) VM_MEMORY (|):"],
+		["modifyvm", "{{.Name}}", "--cpus", ":(|) VM_CPUS (|):"] :(|) VM_MANAGE_COMMANDS (|):
+    ],
+    "vboxmanage_post": [ :(|) VM_POST_MANAGE_COMMANDS (|):
+    ],
+
+    "disk_size" : :(|) VM_DISKSIZE (|):,
+
+    "iso_url": ":(|) BASE_FILE (|):",
+    "iso_checksum": ":(|) BASE_MD5 (|):",
+    "iso_checksum_type": "md5",
+
+    "http_directory" : ".",
+    "http_port_min" : 9001,
+    "http_port_max" : 9001,
+
+    "ssh_username": "{{user `ssh_name`}}",
+    "ssh_password": "{{user `ssh_pass`}}",
+    "ssh_wait_timeout": "20m",
+
+    "shutdown_command": "echo {{user `ssh_pass`}} | sudo -S shutdown -P now",
+
+    "boot_command" : [
+		"<enter><wait><f6><esc><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "/install/vmlinuz<wait>",
+        " auto<wait>",
+        " console-setup/ask_detect=false<wait>",
+        " console-setup/layoutcode=us<wait>",
+        " console-setup/modelcode=pc105<wait>",
+        " debconf/frontend=noninteractive<wait>",
+        " debian-installer=:(|) VM_LANGUAGE (|):<wait>",
+        " fb=false<wait>",
+        " initrd=/install/initrd.gz<wait>",
+        " kbd-chooser/method=:(|) KBD_METHOD (|):<wait>",
+        " keyboard-configuration/layout=:(|) KBD_LAYOUT (|):<wait>",
+        " keyboard-configuration/variant=:(|) KBD_VARIANT (|):<wait>",
+        " locale=:(|) VM_LANGUAGE (|):<wait>",
+        " netcfg/get_domain=vm<wait>",
+        " netcfg/get_hostname={{user `hostname`}}<wait>",
+        " grub-installer/bootdev=/dev/sda<wait>",
+        " noapic<wait>",
+        " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg",
+        " -- <wait>",
+		"<enter><wait>"
+    ],
+	"boot_wait": "5s"
+}]
+
+}

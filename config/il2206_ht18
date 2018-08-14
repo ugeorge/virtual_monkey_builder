@@ -1,0 +1,84 @@
+#!/bin/bash
+
+###:(|)#########################################################################
+#
+# Author:  Kalle Ngo <kngo@kth.se>
+# Date:    2016.19.06
+# Comment: Builds a VM for VHDL lab for distributing to the students
+# Specs:   Ubuntu 14.04-32bit guest with gnome-desktop
+#          - Quartus 13.0sp1 WITH Modelsim, but no DSP builder and drivers for 
+#            Cyclone and MAX families. Shell included. Fixed blaster drivers.
+#          - Updated ForSyDe-SystemC. Shell included.
+#          - several other packages installed
+#          - uses a temporary .vdi disk for unpacking the huge installation kits.
+#            It is detached from the final .ova package
+#
+###(|):#########################################################################
+
+export check_dependencies=1
+export bundle="ubuntu16x86-server"
+
+# Base ISO/VM
+export base_name="ubuntu-16.04.5-server-i386.iso"
+export base_url="http://releases.ubuntu.com/16.04.5/ubuntu-16.04.5-server-i386.iso"
+export base_md5="9ba5fefe27685ae69f991c45396080af"
+export base_os_type="Ubuntu"
+export base_os_family="ubuntu"
+export base_os_version="16"
+
+# Hardware resources
+export vm_type="virtualbox"
+export vm_base_type="iso"
+export vm_memory="4096"
+export vm_cpus="4"
+export vm_disksize="27000"
+export vm_vram="32"
+
+#modifyvm {{.Name}} --nic1 nat --nictype1 Am79C970A
+export vm_manage_commands="
+modifyvm {{.Name}} --ioapic on
+modifyvm {{.Name}} --rtcuseutc on
+modifyvm {{.Name}} --hwvirtex on
+modifyvm {{.Name}} --usb on --usbehci on 
+createhd --filename output-virtualbox-iso/tmp.vdi --size 25000
+storageattach {{.Name}} --storagectl IDE(_)Controller --port 1 --device 0 --type dvddrive --medium :(|)(_)BASE_FILE(_)(|):
+storageattach {{.Name}} --storagectl IDE(_)Controller --port 0 --device 1 --type hdd --medium output-virtualbox-iso/tmp.vdi
+usbfilter add 1 --target {{.Name}} --name USB-Blaster1 --vendorid 0x09fb --productid 0x6001
+usbfilter add 1 --target {{.Name}} --name USB-Blaster2 --vendorid 0x09fb --productid 0x6002
+usbfilter add 1 --target {{.Name}} --name USB-Blaster3 --vendorid 0x09fb --productid 0x6003
+usbfilter add 1 --target {{.Name}} --name USB-Blaster4 --vendorid 0x09fb --productid 0x6010
+usbfilter add 1 --target {{.Name}} --name USB-Blaster5 --vendorid 0x09fb --productid 0x6810
+"
+export vm_post_manage_commands="
+modifyvm {{.Name}} --memory 1024
+modifyvm {{.Name}} --cpus 1
+modifyvm {{.Name}} --dvd none
+"
+
+# Language and keyboard settings
+export vm_language="en_US"
+export kbd_method="us"
+export kbd_layout="USA"
+export kbd_variant="USA"
+
+# User details
+export vm_name="il2206"
+export user_fullname="KTH Student"
+export username="student"
+export user_password="embedded"
+
+# Packages
+export standard_packages="standard"
+export pre_install_packages="build-essential ssh dkms xorg emacs git gedit"
+
+# Provisioners
+export provisioner_scripts='
+	init.sh
+	install_kalle.sh
+	install_university_program.sh
+	fix_blaster_drivers.sh
+	install_mate_desktop.sh
+	wrap-up.sh
+'
+
+
